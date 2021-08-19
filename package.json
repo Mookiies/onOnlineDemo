@@ -1,21 +1,20 @@
 {
-  "name": "request-policy-demo",
+  "name": "on-online-demo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mookiies.github.io/request-policy-demo/",
+  "homepage": "https://mookiies.github.io/onOnlineDemo/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@urql/exchange-graphcache": "^4.1.1",
-    "@urql/exchange-request-policy": "^0.1.3",
+    "@urql/exchange-graphcache": "^4.3.0",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "typescript": "^4.2.4",
-    "urql": "^2.0.3",
+    "urql": "^2.0.4",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
