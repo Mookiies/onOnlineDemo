@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   createClient,
   dedupExchange,
@@ -6,7 +6,6 @@ import {
   Provider
 } from "urql";
 
-import { requestPolicyExchange } from "@urql/exchange-request-policy";
 import { offlineExchange } from "@urql/exchange-graphcache";
 import { makeDefaultStorage } from "@urql/exchange-graphcache/default-storage";
 import { Todos } from "./components";
@@ -20,36 +19,39 @@ const cache = offlineExchange({
   storage
 });
 
-const client = createClient({
+const clientConfig = {
   url: "https://0ufyz-4000.sse.codesandbox.io",
   exchanges: [
     dedupExchange,
-    requestPolicyExchange({
-      ttl: 5 * 1000,
-      shouldUpgrade: (op) => {
-        console.log('upgrading', op);
-        return true;
-      }
-    }),
     cache,
     fetchExchange
   ],
   requestPolicy: "cache-first"
-});
+};
 
 const App = () => {
-  const [showTodos, setShowTodos] = useState(false);
-  const toggleTodos = () => {
-    setShowTodos((previousValue) => !previousValue);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const toggleLoggedIn = () => {
+    setIsLoggedIn((previousValue) => !previousValue);
   };
+  const client = useMemo(() => {
+    if (!isLoggedIn) {
+      return null;
+    }
+
+    console.log('createClient');
+    return createClient(clientConfig);
+  }, [isLoggedIn]);
+
+  const app = <Provider value={client}>
+     <Todos />
+  </Provider>
 
   return (
-    <Provider value={client}>
       <main>
-        <button onClick={toggleTodos}>Toggle todos</button>
-        {showTodos ? <Todos /> : null}
+        <button onClick={toggleLoggedIn}>Toggle login</button>
+        {isLoggedIn && app}
       </main>
-    </Provider>
   );
 };
 
